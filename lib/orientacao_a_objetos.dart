@@ -1,6 +1,41 @@
 //TODO: Orientação a Objetos
 
-import 'dart:math';
+class User {
+  int? _id;
+  String? _username;
+
+  // Criando acesso publico ao atributo _id
+  int? get id => _id;
+
+  // Criando modificador publico ao atributo _id
+  set id(int? id) {
+    if (id != null && id > 0) _id = id;
+  }
+
+  // Criando acesso publico ao atributo _username
+  String? get username => _username;
+
+  // Criando modificador publico ao atributo username
+  set username(String? username) {
+    if (username != null && username.length > 3) _username = username;
+  }
+
+  User({required int? id, required String? username})
+    : _id = id,
+      _username = username;
+
+  User.anonimo() {
+    _username = 'Anônimo';
+    _id = 0;
+  }
+
+  String get obscurePassword => "*" * _username!.length;
+
+  @override
+  String toString() {
+    return 'User(id: $_id, username: $_username)';
+  }
+}
 
 void orientacaoAObjetos() {
   print('Orientação a Objetos');
@@ -12,27 +47,4 @@ void orientacaoAObjetos() {
 
   final data = DateTime.now();
   print(data);
-}
-
-class User {
-  int? _id;
-  String? _username;
-
-  set id(int? id) => _id = id;
-  int? get id => _id;
-
-  set username(String? username) => _username = username;
-  String? get username => _username;
-
-  User({int? id, String? username}) : _id = id, _username = username;
-
-  User.anonimo() {
-    _username = 'Anônimo';
-    _id = 0;
-  }
-
-  @override
-  String toString() {
-    return 'User(id: $id, username: $username)';
-  }
 }

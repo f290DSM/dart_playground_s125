@@ -132,7 +132,7 @@ Vamos criar um exemplo ao qual utilizemos funções como argumentos de função,
 
 Mas estamos aqui para conhecer este tipo de utilização de deixar o `ESTRANHO` para trás.
 
-Vamos criar uma função que calcula um média de 4 valores, mas esta função deve ter a capacidade de calcular medias aritmeticas ou medias ponderadas; como a algoritmo de calculo de media é selecionável, vamos tomar posso de conceito de funções como tipo e utilizar um algoritmo de cálculo de média como parametro de uma função.
+Vamos criar uma função que calcula um média de 4 valores, mas esta função deve ter a capacidade de calcular medias aritmeticas ou medias ponderadas; como a algoritmo de calculo de media é selecionável, vamos tomar posse de conceito de funções como tipo e utilizar um algoritmo de cálculo de média como parametro de uma função.
 
 O parametro recebido é que irá realizar o cálculo da média.
 
@@ -172,7 +172,7 @@ print(ma);
 5.0
 
 var mp = calcularMedia(10, 0, 10, 0, agoritmo: calcularMediaPonderada);
-print(ma);
+print(mp);
 3.0
 ```
 > Observe que os resultados foram alterados com base na alteração do parametro `algoritmo`.
@@ -181,7 +181,7 @@ print(ma);
 
 Ao utilizar Widgets do tipo Buttons, todos eles tem associado a execução de uma função ou evento de toque ou clique, então para criar um componente do tipo Button já é temos como concreto que o Button deve possuir alguma forma de parametrizar o evento de clique ou toque.
 
-Em Flutter, este evento é um atributo do tipo Function ou VoidCallback, então para criar um componente que execute uma ação externa, é necessário utilizar um atributo Function na classe que represente este Button, conform o exemplo abaixo.
+Em Flutter, este evento é um atributo do tipo Function ou VoidCallback, então para criar um componente que execute uma ação externa, é necessário utilizar um atributo Function na classe que represente este Button, conforme o exemplo abaixo.
 
 ```dart
 class Button {
@@ -200,4 +200,4 @@ class Button {
 
 ### Classes e P.O.O
 
-Agora você pode conferir os exemplos mais detalhados sobre Funtions neste [arquivo](../assets/poo.md).
+Agora você pode conferir os exemplos mais detalhados sobre Functions neste [arquivo](../assets/poo.md).

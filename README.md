@@ -240,7 +240,7 @@ Dart oferece uma variedade de tipos de dados para manipulação eficiente de val
 
 ### Functions
 
-Agora você pode conferir os exemplos mais detalhados sobre Funtions neste [arquivo](assets/functions.md).
+Agora você pode conferir os exemplos mais detalhados sobre Functions neste [arquivo](assets/functions.md).
 
 
 
