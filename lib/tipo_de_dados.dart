@@ -54,6 +54,15 @@ void tipoDeDados() {
 
   var onzeEhImpar = 11.isOdd;
   print('11 é impar? $onzeEhImpar');
+  print('10 é par? $onzeEhImpar');
 
   print('A minha pretenção salarial é de R\$ ${10000.toStringAsFixed(2)}');
+
+    print('11 é impar? ${11.isOdd}');
+  print('10 é par? ${10.isEven}');
+
+  var multiplicar = (int a, int b) => a * b;
+
+
+  print(multiplicar.runtimeType);
 }
