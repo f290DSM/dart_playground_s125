@@ -1,6 +1,6 @@
 //TODO: Orientação a Objetos
 
-class User {
+abstract class User {
   int? _id;
   String? _username;
 
@@ -37,14 +37,75 @@ class User {
   }
 }
 
+class Moderator extends User with SuperUser implements Notify {
+  Moderator({required super.id, required super.username});
+
+  void moderate(User user) {
+    print('Moderating user ${user.username}');
+  }
+  
+  @override
+  void notify(User user) {
+    print('Notifying user ${user.username}');
+  }
+}
+
+class Admin extends User implements Notify {
+  Admin({required super.id, required super.username});
+
+  void delete(User user) {
+    print('Deleting user ${user.username}');
+  }
+
+  void add(User user) {
+    print('Adding user ${user.username}');
+  }
+  
+  @override
+  void notify(User user) {
+    print('Notifying user ${user.username}');
+  }
+}
+
+mixin SuperUser {
+  void block(User user) {
+    print('Blocking user ${user.username}');
+  }
+
+  void unblock(User user) {
+    print('Unblocking user ${user.username}');
+  }
+}
+
+abstract interface class Notify {
+  void notify(User user);
+}
+
+class DefaultUser extends User {
+  DefaultUser({required super.id, required super.username});
+  DefaultUser.anonimo() : super(id: 0, username: 'Anônimo');
+}
+
 void orientacaoAObjetos() {
   print('Orientação a Objetos');
-  var user = User(username: 'Fabiano', id: 42);
-  var userAnonymous = User.anonimo();
+  var user = DefaultUser(username: 'Fabiano', id: 42);
+  var userAnonymous = DefaultUser.anonimo();
 
   print(user);
   print(userAnonymous);
 
   final data = DateTime.now();
   print(data);
+
+  final admin = Admin(id: 1, username: 'Admin');
+  admin.add(user);
+  admin.delete(user);
+  admin.notify(user);
+
+  final moderator = Moderator(id: 2, username: 'Moderator');
+  moderator.moderate(user);
+  moderator.block(user);
+  moderator.unblock(user);
+  moderator.notify(user);
+
 }
