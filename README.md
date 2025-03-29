@@ -1,6 +1,16 @@
 # Introdução ao Dart
 
-# Introdução aos Tipos em Dart
+> Acesso direto aos conteúdos
+
+Conteúdo | Link
+| -- | -- |
+| Funções| [acesso](assets/functions.md) |
+| Programação Orientada a Objetos | [acesso](assets/poo.md) |
+| Null Safety| [work in progress]() |
+| Collections| [work in progress]() |
+| Programação Assíncrona| [work in progress]() |
+
+## Introdução aos Tipos em Dart
 
 Dart é uma linguagem fortemente tipada, o que significa que cada variável tem um tipo específico. Neste documento, exploraremos os principais tipos básicos da linguagem com exemplos práticos.
 
