@@ -1,5 +1,7 @@
 //TODO: Orientação a Objetos
 
+import 'dart:math';
+
 abstract class User {
   int? _id;
   String? _username;
@@ -98,6 +100,7 @@ void orientacaoAObjetos() {
   print(data);
 
   final admin = Admin(id: 1, username: 'Admin');
+  print(admin);
   admin.add(user);
   admin.delete(user);
   admin.notify(user);
@@ -107,5 +110,21 @@ void orientacaoAObjetos() {
   moderator.block(user);
   moderator.unblock(user);
   moderator.notify(user);
+  print('-------------');
+  print(moderator);
+  moderator.moderate(userAnonymous);
 
+  print('--------');
+  print(moderator.username!.separatedChars);
+
+}
+
+extension StringExtension on String {
+  String get separatedChars {
+    String separated = '';
+    split('').forEach((element) {
+      separated += '${element.toUpperCase()} ';
+    });
+    return separated.trim();
+  }
 }

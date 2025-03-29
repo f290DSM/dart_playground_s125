@@ -179,3 +179,266 @@ class User {
 ```
 
 > Temos uma computed property que retorna um `obscurePassword` aproveitando um atributo existente e o `get`.
+
+## Herança
+
+Assim como nas demais linguagens orientadas à objetos, o Dart possui o pilar da herança.
+
+> Vamos reproveitar a classe User como uma classe base para a criação de uma família de classes.
+
+### Alterando a classe pai
+
+Inclua o modificador abstract na classe base.
+
+```dart
+// Inclusão do modificador abstract
+abstract class User {
+  int? _id;
+  String? _username;
+
+  // Criando acesso publico ao atributo _id
+  int? get id => _id;
+
+  // Criando modificador publico ao atributo _id
+  set id(int? id) {
+    if (id != null && id > 0) _id = id;
+  }
+
+  // Criando acesso publico ao atributo _username
+  String? get username => _username;
+
+  // Criando modificador publico ao atributo username
+  set username(String? username) {
+    if (username != null && username.length > 3) _username = username;
+  }
+
+  User({required int? id, required String? username})
+    : _id = id,
+      _username = username;
+
+  User.anonimo() {
+    _username = 'Anônimo';
+    _id = 0;
+  }
+
+  String get obscurePassword => "*" * _username!.length;
+
+  @override
+  String toString() {
+    return 'User(id: $_id, username: $_username)';
+  }
+}
+```
+
+#### Execução e resultado
+```shell
+  var user = User(username: 'Fabiano', id: 42);
+  var userAnonymous = User.anonimo();
+  print(user);
+  print(userAnonymous);
+
+User(id: 42, username: Fabiano)
+User(id: 0, username: Anônimo)
+```
+
+### Criando a classe filha Moderator
+
+Assim como nas demais linguagens, utilizamos a extensão, palavra reservada `extends` para reutilizar a classe pai como base da classe Moderator, assim como seus atributos, métodos e construtores.
+
+A classe terá um comportamento próprio, o `moderação` de usuários.
+
+```dart
+class Moderator extends User {
+  Moderator({required super.id, required super.username});
+
+  void moderate(User user) {
+    print('Moderating user ${user.username}');
+  }
+}
+```
+
+#### Execução e resultado
+```shell
+final moderator = Moderator(id: 2, username: 'Moderator');
+print(moderator);
+moderator.moderate(User.anonimo());
+
+User(id: 2, username: Moderator)
+Moderating user Anônimo
+```
+
+### Criando a classe filha Admin
+
+Assim como Moderator, Admin terá seus próprios comportamentos, sen eles adicionar e excluir usuários.
+
+```dart
+class Admin extends User {
+  Admin({required super.id, required super.username});
+
+  void delete(User user) {
+    print('Deleting user ${user.username}');
+  }
+
+  void add(User user) {
+    print('Adding user ${user.username}');
+  }
+  
+  @override
+  void notify(User user) {
+    print('Notifying user ${user.username}');
+  }
+}
+```
+
+#### Execução e resultado
+```shell
+final admin = Admin(id: 1, username: 'Admin');
+admin.add(user);
+admin.delete(user);
+print(admin);
+
+User(id: 1, username: Admin)
+Adding user Fabiano
+Deleting user Fabiano
+```
+
+### Interfaces
+
+As interfaces em Dart, também são como as demais linguagens; elas permitem a criação interfaces para implementação, contratos ou delegates, dependendo da linguagem à qual se compare.
+
+> As interfaces possibilitam a flexibilização de hierarquia de classes, a compatibilização de tipos complexos e é o pilar da inversão de controle ou dependencia.
+
+```dart
+abstract interface class Notify {
+  void notify(User user);
+}
+```
+
+#### Vamos fazer com que as classes Moderator e Admin implementem a interface Notify.
+
+Altere a classe Moderator fazendo com que ela assine o contrato Notify e cumpra-o implementado o método `notify(user)`.
+
+```dart
+class Moderator extends User implements Notify {
+  Moderator({required super.id, required super.username});
+  // ... Resto do código implementado acima
+  @override
+  void notify(User user) {
+    print('Notifying user ${user.username}');
+  }
+}
+
+class Admin extends User implements Notify {
+  Admin({required super.id, required super.username});
+  // ... Resto do código implementado acima
+  @override
+  void notify(User user) {
+    print('Notifying user ${user.username}');
+  }
+}
+```
+
+#### Execução e resultado
+```shell
+moderator.notify(user);
+admin.notify(user);
+
+Notifying user Fabiano
+Notifying user Fabiano
+```
+
+## Mixin
+
+As linguagens de programação tradicionais permitem a extensão de apenas uma classe, impossibilitando a herança múltipla.
+
+O Dart possui o `mixin` que permite a combinação de classes sem restriçoes, podendo adequar facilmente familias de classes complexas compartilhando atributos e comportamentos já implementados, diferentemente do uso de intefaces.
+
+### Criando um mixin
+
+Use a palavra reservada mixin no lugar de class.
+
+```dart
+mixin SuperUser {
+  void block(User user) {
+    print('Blocking user ${user.username}');
+  }
+
+  void unblock(User user) {
+    print('Unblocking user ${user.username}');
+  }
+}
+```
+
+#### Aplicando mixin ao Moderator
+
+Utilizamos a palavra reservada With para combinar a classe Moderator com SuperUser.
+
+```dart
+class Moderator extends User with SuperUser implements Notify {
+  Moderator({required super.id, required super.username});
+  // ... código já implementado
+}
+```
+
+#### Vamos testar os comportamentos de Moderator combinados SuperUser e Notify.
+
+Observe que o bloqueio e desbloqueio vieram de SuperUser com uma implementação concreta.
+
+#### Execução e resultado
+```shell
+moderator.moderate(user);
+moderator.block(user);
+moderator.unblock(user);
+moderator.notify(user);
+
+Moderating user Fabiano
+Blocking user Fabiano
+Unblocking user Fabiano
+Notifying user Fabiano
+```
+## Extensions
+
+As extensões possibilitam que você crie comportamentos em classes existentes, sem afetá-las.
+
+Considerando a classe estável String, nativa do Dart; vamos supor que você quisesse incluir um novo comportamento diretamente na classe String; com certeza a equipe do Google Dart não iria permitir!
+
+Mas caso seja necessário incluir um comportamento na classe String, as extensions resolveriam este problema.
+
+Imagine que voce precisasse de um método que iria apresentar Strings em `caixa-alta separadas por um espaço em branco entre os caratcteres`, para este caso você precisaria de um Utilitário de Strings proprietário, algo como `MeuProjetoStringUtils.dart` e um método próprio para isso.
+
+O dart permite que voce crie uma extensão da classe sagrada String e utilize o seu método diretamente sobre ela.
+
+### Criando uma extension
+
+Em qualquer classe de seu projeto, adicione o código abaixo.
+
+> Este método incluirá a computed property `separatedChars` diretamente sobre a classe String, como uma extenção
+
+```dart
+extension StringExtension on String {
+  String get separatedChars {
+    String separated = '';
+    // Faz um loop nos caracteres da String
+    split('').forEach((element) {
+      // Aplica caixa alta e concatena um espaço em branco no final
+      separated += '${element.toUpperCase()} ';
+    });
+    // Retorna a String formatada e remove os espaços em branco do inínio e final
+    return separated.trim();
+  }
+}
+```
+
+#### Execução e resultado
+```shell
+print(moderator.username!.separatedChars);
+
+M O D E R A T O R
+```
+
+> Observe que da computed property foi chamada à partir do getter username que é uma String, e a extensão da classe String nos forneceu a string formatada diretamente do próprio valor do objeto, o conteúdo `Moderator`.
+
+# Parabéns por chegar até aqui, concluímos os principais fundamentos do Dart.
+
+## Nossos próximos conteúdos serão Collections e Programação Assincrona, até breve!
+
